@@ -57,27 +57,7 @@
             <artifactId>hibernate-validator-annotation-processor</artifactId>
             <version>5.2.1.Final</version>
         </dependency>
-        <dependency>
-            <groupId>com.aspose</groupId>
-            <artifactId>aspose-words</artifactId>
-            <version>22.11</version>
-            <classifier>javadoc</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.aspose</groupId>
-            <artifactId>aspose-words</artifactId>
-            <version>22.11</version>
-            <classifier>jdk17</classifier>
-        </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>AsposeJavaAPI</id>
-            <name>Aspose Java API</name>
-            <url>https://releases.aspose.com/java/repo</url>
-        </repository>
-    </repositories>
 
     <build>
         <plugins>
