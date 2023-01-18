@@ -1,0 +1,14 @@
+bot:
+  token: 5775773013:AAEMnAu0uZ771UqtkWehbi3FdvfdkLP-GnQ
+  username: sticketjbot
+
+server:
+  port: 8082
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stickerbot
+    username: postgres
+    password: 12345
