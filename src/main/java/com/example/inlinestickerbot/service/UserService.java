@@ -1,7 +1,6 @@
 package com.example.inlinestickerbot.service;
 
 import com.example.inlinestickerbot.component.Sender;
-import com.jogamp.graph.font.FontFactory;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
