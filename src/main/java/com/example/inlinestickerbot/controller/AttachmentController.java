@@ -13,4 +13,8 @@ public class AttachmentController {
     public void download(@PathVariable Long imageName, HttpServletResponse response){
 
     }
+    @GetMapping("/test")
+    public String test(){
+        return "Ishlayapti";
+    }
 }
