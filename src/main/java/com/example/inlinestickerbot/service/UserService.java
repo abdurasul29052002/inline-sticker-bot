@@ -81,7 +81,7 @@ public class UserService {
                 ImageIO.write(image, "png", new File(imageFolder+"/"+fontNames.get(i)+"_"+inlineQuery.getId()+".webp"));
                 InlineQueryResultPhoto inlineQueryResultPhoto = new InlineQueryResultPhoto(
                         inlineQuery.getId(),
-                        "https://home.starfit.uz/sticker/download/"+fontNames.get(0)+"_"+inlineQuery.getId()
+                        "https://home.starfit.uz/sticker/download/"+fontNames.get(i)+"_"+inlineQuery.getId()+".webp"
                 );
                 photos.add(inlineQueryResultPhoto);
             } catch (IOException ex) {
