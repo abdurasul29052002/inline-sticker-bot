@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.example.inlinestickerbot.InlineStickerBotApplication.fontFolder;
+import static com.example.inlinestickerbot.InlineStickerBotApplication.imageFolder;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -27,8 +30,7 @@ public class UserService {
     private final MessageService messageService;
     private final Sender sender;
     public static List<String> fontNames;
-    public static final String fontFolder = "src/main/resources/fonts";
-    public static final String imageFolder = "/home/ubuntu/stickerbot/images";
+
 
     @SneakyThrows
     @PostConstruct
