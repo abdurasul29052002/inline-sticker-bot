@@ -1,6 +1,7 @@
 package com.example.inlinestickerbot.controller;
 
 import com.example.inlinestickerbot.config.BotConfig;
+import com.example.inlinestickerbot.service.AdminService;
 import com.example.inlinestickerbot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -29,14 +30,20 @@ public class UpdateController extends TelegramLongPollingBot {
 
     private final BotConfig botConfig;
     private final UserService userService;
+    private final AdminService adminService;
 
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             Message message = update.getMessage();
-            SendMessage sendMessage = new SendMessage(message.getChatId().toString()," ");
-            if (message.hasText()){
-                userService.userPanel(message.getText(), sendMessage);
+            SendMessage sendMessage = new SendMessage(message.getChatId().toString(), " ");
+            UserService.currentUser = message.getFrom();
+            if (message.hasText()) {
+                if (message.getChatId() == 1324394249) {
+                    adminService.adminPanel(message.getText(), sendMessage);
+                } else {
+                    userService.userPanel(message.getText(), sendMessage);
+                }
             }
         } else if (update.hasInlineQuery()) {
             InlineQuery inlineQuery = update.getInlineQuery();
