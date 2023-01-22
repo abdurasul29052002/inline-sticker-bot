@@ -60,7 +60,7 @@ public class UserService {
             Sticker sticker = executedMessage.getSticker();
             InlineQueryResultCachedSticker inlineQueryResultCachedSticker = new InlineQueryResultCachedSticker(randomUUID().toString(), sticker.getFileId());
             results.add(inlineQueryResultCachedSticker);
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         }
         answerInlineQuery.setResults(results);
         sender.execute(answerInlineQuery);
