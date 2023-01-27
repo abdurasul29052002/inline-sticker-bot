@@ -7,8 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class KeyboardService {
@@ -29,18 +28,21 @@ public class KeyboardService {
         return replyKeyboardMarkup;
     }
 
-    public InlineKeyboardMarkup getInlineKeyboard(int columnCount, String... texts) {
-        int buttonCount = texts.length;
+    public InlineKeyboardMarkup getInlineKeyboard(int columnCount, Map<String, String> buttons) {
         List<InlineKeyboardButton> row = new ArrayList<>();
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-        for (int i = 0; i < buttonCount; i++) {
-            InlineKeyboardButton button = new InlineKeyboardButton(texts[i]);
-            button.setCallbackData(texts[i]);
+        Iterator<Map.Entry<String, String>> iterator = buttons.entrySet().iterator();
+        int i=0;
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = iterator.next();
+            InlineKeyboardButton button = new InlineKeyboardButton(entry.getValue());
+            button.setCallbackData(entry.getKey());
             row.add(button);
-            if ((i + 1) % columnCount == 0 || (i + 1) == buttonCount) {
+            if ((i + 1) % columnCount == 0 || (i + 1) == buttons.size()) {
                 rowList.add(row);
                 row = new ArrayList<>();
             }
+            i++;
         }
         return new InlineKeyboardMarkup(rowList);
     }

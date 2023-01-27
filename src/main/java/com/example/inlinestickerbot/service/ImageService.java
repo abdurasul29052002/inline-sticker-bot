@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -25,10 +26,14 @@ public class ImageService {
     private final BotConfig botConfig;
     public static List<String> fontNames;
 
-    @SneakyThrows
     @PostConstruct
-    public void init() {
-        File[] files = new File(fontFolder).listFiles();
+    public void init(){
+        apiUrl.append(botConfig.getToken()).append("/");
+    }
+
+    @SneakyThrows
+    public void initFonts(Long chatId) {
+        File[] files = new File(fontFolder + "/" + chatId).listFiles();
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         List<String> before = new ArrayList<>(Arrays.asList(graphicsEnvironment.getAvailableFontFamilyNames()));
         if (files != null) {
@@ -39,8 +44,6 @@ public class ImageService {
         List<String> after = new ArrayList<>(Arrays.asList(graphicsEnvironment.getAvailableFontFamilyNames()));
         after.removeAll(before);
         fontNames = after;
-
-        apiUrl.append(botConfig.getToken() + "/");
     }
 
     @SneakyThrows
@@ -78,5 +81,13 @@ public class ImageService {
             File file = new File(imageFolder + "/" +fontName + "_" + queryId + ".png");
             file.delete();
         }
+    }
+
+    @SneakyThrows
+    public void createFolder(Long chatId){
+        File file = new File(fontFolder + "/" + chatId);
+        file.mkdir();
+        File fontFile = new File(fontFolder + "/kindness-love-script.ttf");
+        FileCopyUtils.copy(fontFile, file);
     }
 }

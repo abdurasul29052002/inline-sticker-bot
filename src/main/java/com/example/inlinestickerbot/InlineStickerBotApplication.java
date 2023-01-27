@@ -14,8 +14,8 @@ import java.util.TimerTask;
 @SpringBootApplication
 public class InlineStickerBotApplication {
 
-    public static final String fontFolder = "/home/ubuntu/stickerbot/fonts";
-    public static final String imageFolder = "/home/ubuntu/stickerbot/images";
+    public static final String fontFolder = "src/main/resources/fonts";
+    public static final String imageFolder = "C:\\Users\\Abdurasul\\Desktop\\images";
     public static final StringBuilder apiUrl = new StringBuilder("https://api.telegram.org/file/bot");
     public static Integer stickerCount = 0;
     public static Integer queryCount = 0;
