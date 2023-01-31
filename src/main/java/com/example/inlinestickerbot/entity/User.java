@@ -1,12 +1,12 @@
 package com.example.inlinestickerbot.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,4 +21,7 @@ public class User {
     private String username;
 
     private Boolean active = true;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Font> fonts = new ArrayList<>();
 }

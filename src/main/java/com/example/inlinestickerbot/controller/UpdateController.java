@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import java.util.ArrayList;
 
 import static com.example.inlinestickerbot.service.UserService.*;
+import static com.example.inlinestickerbot.InlineStickerBotApplication.*;
 
 @Component
 @RequiredArgsConstructor
@@ -42,8 +43,15 @@ public class UpdateController extends TelegramLongPollingBot {
             SendMessage sendMessage = new SendMessage(message.getChatId().toString(), " ");
             currentUser = message.getFrom();
             if (message.hasText()) {
-                if (message.getChatId() == 1324394249) {
-                    adminService.adminPanel(message.getText(), sendMessage);
+                if (admins.containsKey(message.getChatId())) {
+                    if (message.getText().equals("/start")){
+                        admins.put(message.getChatId(), "ADMIN");
+                    }
+                    if (admins.get(message.getChatId()).equals("ADMIN")) {
+                        adminService.adminPanel(message.getText(), sendMessage);
+                    }else {
+                        userService.userPanel(message.getText(), sendMessage);
+                    }
                 } else {
                     userService.userPanel(message.getText(), sendMessage);
                 }

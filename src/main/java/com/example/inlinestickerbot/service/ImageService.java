@@ -1,6 +1,8 @@
 package com.example.inlinestickerbot.service;
 
 import com.example.inlinestickerbot.config.BotConfig;
+import com.example.inlinestickerbot.entity.User;
+import com.example.inlinestickerbot.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,36 +28,36 @@ import static com.example.inlinestickerbot.InlineStickerBotApplication.*;
 public class ImageService {
 
     private final BotConfig botConfig;
+    private final UserRepository userRepository;
     public static List<String> fontNames;
+    public static GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
     @PostConstruct
-    public void init(){
+    public void init() {
         apiUrl.append(botConfig.getToken()).append("/");
+        initFont(new File(fontFolder + "/kindness-love-script.ttf"));
+        admins.put(968877318L, "ADMIN");
+        admins.put(1324394249L, "ADMIN");
     }
 
     @SneakyThrows
-    public void initFonts(Long chatId) {
-        File[] files = new File(fontFolder + "/" + chatId).listFiles();
-        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    public void initFont(File file) {
         List<String> before = new ArrayList<>(Arrays.asList(graphicsEnvironment.getAvailableFontFamilyNames()));
-        if (files != null) {
-            for (File file : files) {
-                graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, file));
-            }
-        }
+        graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, file));
         List<String> after = new ArrayList<>(Arrays.asList(graphicsEnvironment.getAvailableFontFamilyNames()));
         after.removeAll(before);
         fontNames = after;
+        System.out.println(fontNames.size());
     }
 
     @SneakyThrows
-    public List<File> generateImage(String text, @NonNull String queryId) {
+    public List<File> generateImage(String text, @NonNull String queryId, String... fonts) {
         List<File> files = new ArrayList<>();
-        for (int i = 0; i < fontNames.size(); i++) {
-            String imageName = fontNames.get(i) + "_" + queryId + ".png";
+        for (int i = 0; i < fonts.length; i++) {
+            String imageName = fonts[i] + "_" + queryId + ".png";
             BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);// Represents an image with 8-bit RGBA color components packed into integer pixels.
             Graphics2D graphics2d = image.createGraphics();
-            Font font = new Font(fontNames.get(i), Font.BOLD, 75);
+            Font font = new Font(fonts[i], Font.BOLD, 75);
             graphics2d.setFont(font);
             FontMetrics fontmetrics = graphics2d.getFontMetrics();
             int width = fontmetrics.stringWidth(text);
@@ -71,23 +75,15 @@ public class ImageService {
             graphics2d.dispose();
             Scalr.resize(image, Scalr.Mode.AUTOMATIC, 512);
             ImageIO.write(image, "png", new File(imageFolder + "/" + imageName));
-            files.add(new File(imageFolder+"/" + imageName));
+            files.add(new File(imageFolder + "/" + imageName));
         }
         return files;
     }
 
     public void deleteFiles(String queryId) {
         for (String fontName : fontNames) {
-            File file = new File(imageFolder + "/" +fontName + "_" + queryId + ".png");
+            File file = new File(imageFolder + "/" + fontName + "_" + queryId + ".png");
             file.delete();
         }
-    }
-
-    @SneakyThrows
-    public void createFolder(Long chatId){
-        File file = new File(fontFolder + "/" + chatId);
-        file.mkdir();
-        File fontFile = new File(fontFolder + "/kindness-love-script.ttf");
-        FileCopyUtils.copy(fontFile, file);
     }
 }

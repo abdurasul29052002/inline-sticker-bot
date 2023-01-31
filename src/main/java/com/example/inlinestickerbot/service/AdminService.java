@@ -17,12 +17,24 @@ public class AdminService {
     private final KeyboardService keyboardService;
     private final UserRepository userRepository;
     private final Sender sender;
+    private final UserService userService;
 
     @SneakyThrows
     public void adminPanel(String text, SendMessage sendMessage){
         switch (text) {
             case "/start" -> {
+                sendMessage.setText("Iltimos tanglang");
+                ReplyKeyboardMarkup replyKeyboard = keyboardService.getReplyKeyboard(2, "Admin panel", "User panel");
+                sendMessage.setReplyMarkup(replyKeyboard);
+            }
+            case "User panel" -> {
+                admins.put(Long.valueOf(sendMessage.getChatId()), "USER");
+                userService.userPanel("/start", sendMessage);
+                return;
+            }
+            case "Admin panel" ->{
                 sendMessage.setText("Assalomu alaykum.\nAdmin panelga hush kelibsiz");
+
                 ReplyKeyboardMarkup replyKeyboard = keyboardService.getReplyKeyboard(
                         2,
                         "Foydalanuvchilarga habar jo`natish",

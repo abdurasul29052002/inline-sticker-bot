@@ -2,6 +2,7 @@ package com.example.inlinestickerbot.service;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
@@ -44,6 +45,16 @@ public class KeyboardService {
             }
             i++;
         }
+        return new InlineKeyboardMarkup(rowList);
+    }
+
+    public InlineKeyboardMarkup getBotLinkKeyboard(){
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton("Go to bot");
+        button.setUrl("https://t.me/sticketjbot");
+        row.add(button);
+        rowList.add(row);
         return new InlineKeyboardMarkup(rowList);
     }
 }

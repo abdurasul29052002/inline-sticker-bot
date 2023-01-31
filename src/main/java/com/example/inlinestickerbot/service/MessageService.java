@@ -22,13 +22,20 @@ public class MessageService {
 
     public void greetingMessage(SendMessage sendMessage){
         sendMessage.setText("Bu bot sizga matn asosida sticker yasab berish uchun xizmat qiladi");
-        sendMessage.setReplyMarkup(keyboardService.getReplyKeyboard(1, "Fontlarni o`zgartirish"));
+        sendMessage.setReplyMarkup(keyboardService.getReplyKeyboard(1, "Fontlarni o`zgartirish\uD83D\uDD24"));
     }
 
     @SneakyThrows
     public void editFontsMessage(SendMessage sendMessage) {
         sendMessage.setText("Sizda hozircha quyidagicha fontlar mavjud bo`lib siz ularni o`zgartirishingiz mumkin.\nServerning kuhcsizligi sabab bot faqat 2 ta font bilan ishlay oladi");
-        sendMessage.setReplyMarkup(keyboardService.getReplyKeyboard(1, "Qo`shish"));
+        sendMessage.setReplyMarkup(keyboardService.getReplyKeyboard(2, "Qo`shish➕", "Fontlar\uD83D\uDD24","Bosh menyu\uD83C\uDFE0"));
+        sender.execute(sendMessage);
+    }
+
+    @SneakyThrows
+    public void userWithoutFontsMessage(SendMessage sendMessage){
+        sendMessage.setText("Sizda birorta ham font mavjud emas. \nSiz o`zingiz font qo`shishingiz yoki bizda bor bo`lgan fontlardan tanlashingiz mumkin");
+        sendMessage.setReplyMarkup(keyboardService.getReplyKeyboard(2, "Qo`shish➕", "Fontlar\uD83D\uDD24","Bosh menyu\uD83C\uDFE0"));
         sender.execute(sendMessage);
     }
 
