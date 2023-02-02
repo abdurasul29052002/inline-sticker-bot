@@ -228,7 +228,7 @@ public class UserService {
         URL url = new URL(apiUrl + filePath);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         InputStream inputStream = httpURLConnection.getInputStream();
-        Path path = Paths.get(fontFolder + "/" + fileName + ".ttf");
+        Path path = Paths.get(fontFolder + "/" + fileName);
         Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
         return path.toFile();
     }
