@@ -25,13 +25,17 @@ public class ImageService {
 
     private final BotConfig botConfig;
     private final UserRepository userRepository;
-    public static List<String> fontNames;
+    public static List<String> fontNames = new ArrayList<>();
     public static GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
     @PostConstruct
     public void init() {
         apiUrl.append(botConfig.getToken()).append("/");
-        initFont(new File(fontFolder + "/kindness-love-script.ttf"));
+        File[] files = new File(fontFolder).listFiles();
+        assert files != null;
+        for (File file : files) {
+            initFont(file);
+        }
         admins.put(968877318L, "ADMIN");
         admins.put(1324394249L, "ADMIN");
     }
@@ -42,7 +46,7 @@ public class ImageService {
         graphicsEnvironment.registerFont(Font.createFont(Font.TRUETYPE_FONT, file));
         List<String> after = new ArrayList<>(Arrays.asList(graphicsEnvironment.getAvailableFontFamilyNames()));
         after.removeAll(before);
-        fontNames = after;
+        fontNames.addAll(after);
         System.out.println(fontNames.size());
     }
 

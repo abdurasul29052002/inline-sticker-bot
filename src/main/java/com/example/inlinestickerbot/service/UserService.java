@@ -136,7 +136,7 @@ public class UserService {
             return;
         User user;
         try {
-            user = userRepository.findByChatId(currentUser.getId()).orElseThrow();
+            user = userRepository.findByChatId(inlineQuery.getFrom().getId()).orElseThrow();
         } catch (NoSuchElementException e) {
             answerInlineQuery.setSwitchPmText("Botga o`tish");
             answerInlineQuery.setSwitchPmParameter("12345");
@@ -160,7 +160,9 @@ public class UserService {
             sender.execute(answerInlineQuery);
             return;
         }
-        List<File> files = imageService.generateImage(inlineQuery.getQuery(), inlineQuery.getId(), getUsersFontNames(user));
+        String[] usersFontNames = getUsersFontNames(user);
+        System.out.println(usersFontNames.length);
+        List<File> files = imageService.generateImage(inlineQuery.getQuery(), inlineQuery.getId(), usersFontNames);
         List<InlineQueryResult> results = answerInlineQuery.getResults();
         for (File file : files) {
             SendSticker sendSticker = new SendSticker("-1001478286553", new InputFile(file));
@@ -219,8 +221,8 @@ public class UserService {
             } else {
                 sendMessage.setText("Kechirasiz siz eng ko`pi bilan 2 ta fon qo`sha olasiz");
             }
-            sender.execute(sendMessage);
         }
+        sender.execute(sendMessage);
     }
 
     @SneakyThrows
