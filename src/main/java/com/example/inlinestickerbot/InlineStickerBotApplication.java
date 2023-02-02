@@ -3,7 +3,6 @@ package com.example.inlinestickerbot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.util.Pair;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 
 import java.sql.Date;
@@ -37,7 +36,7 @@ public class InlineStickerBotApplication {
                 userCount = 0;
                 System.out.println("Timer ishladi " + LocalDateTime.now());
             }
-        }, Date.valueOf(LocalDate.of(2023,1,9)),1000*60*60*24);
+        }, Date.valueOf(LocalDate.of(2023,2,3)),1000*60*60*24);
 
     }
 

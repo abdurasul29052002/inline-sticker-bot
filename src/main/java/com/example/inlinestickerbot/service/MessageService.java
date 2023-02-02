@@ -6,12 +6,6 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-import javax.print.DocFlavor;
-import java.io.File;
-import java.io.StringWriter;
-
-import static com.example.inlinestickerbot.InlineStickerBotApplication.*;
-
 @Service
 @RequiredArgsConstructor
 public class MessageService {

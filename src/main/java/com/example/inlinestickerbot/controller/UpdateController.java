@@ -15,8 +15,8 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 
 import java.util.ArrayList;
 
-import static com.example.inlinestickerbot.service.UserService.*;
-import static com.example.inlinestickerbot.InlineStickerBotApplication.*;
+import static com.example.inlinestickerbot.InlineStickerBotApplication.admins;
+import static com.example.inlinestickerbot.service.UserService.currentUser;
 
 @Component
 @RequiredArgsConstructor

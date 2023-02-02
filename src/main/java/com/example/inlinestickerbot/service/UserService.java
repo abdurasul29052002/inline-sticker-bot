@@ -125,7 +125,7 @@ public class UserService {
                 }
             }
             case "Bosh menyu\uD83C\uDFE0" -> messageService.greetingMessage(sendMessage);
-
+            default -> messageService.greetingMessage(sendMessage);
         }
         sender.execute(sendMessage);
     }
@@ -138,16 +138,24 @@ public class UserService {
         try {
             user = userRepository.findByChatId(currentUser.getId()).orElseThrow();
         } catch (NoSuchElementException e) {
+            answerInlineQuery.setSwitchPmText("Botga o`tish");
+            answerInlineQuery.setSwitchPmParameter("12345");
             InputTextMessageContent inputTextMessageContent = new InputTextMessageContent(
                     "Ko`rinishidan siz botga start bosmagan ko`rinasiz. \n" +
-                            "Bot bilan ishlash uchun avvala unga start bosishingiz kerak bo`ladi."
+                            "Bot bilan ishlash uchun unga start bosishingiz kerak bo`ladi."
             );
             InlineQueryResultArticle inlineQueryResultArticle = new InlineQueryResultArticle(
                     randomUUID().toString(),
+                    "Foydalanuvchi topilmadi",
+                    inputTextMessageContent,
+                    keyboardService.getBotLinkKeyboard(),
                     "https://t.me/sticketjbot",
-                    inputTextMessageContent
+                    true,
+                    "Bot ishlashi uchun unga start bosishingiz kerak bo`ladi. \nYuqoridagi tugma orqali botga o`tib start bosing\uD83D\uDC46",
+                    null,
+                    0,
+                    0
             );
-            inlineQueryResultArticle.setReplyMarkup(keyboardService.getBotLinkKeyboard());
             answerInlineQuery.setResults(Collections.singletonList(inlineQueryResultArticle));
             sender.execute(answerInlineQuery);
             return;
@@ -198,7 +206,7 @@ public class UserService {
             fontRepository.deleteByFileNameAndUserId(callbackData, user.getId());
             sendMessage.setText("O`chirildi: " + callbackData + " \uD83D\uDDD1");
         } else if (callbackData.startsWith("Qo`shish")) {
-            if (user.getFonts().size()<2) {
+            if (user.getFonts().size() < 2) {
                 callbackData = callbackData.substring(8);
                 Font font = new Font(
                         null,
@@ -208,10 +216,11 @@ public class UserService {
                 user.getFonts().add(font);
                 userRepository.save(user);
                 sendMessage.setText("Qo`shildi: " + callbackData + " ✅");
-            }else {
+            } else {
                 sendMessage.setText("Kechirasiz siz eng ko`pi bilan 2 ta fon qo`sha olasiz");
+            }
+            sender.execute(sendMessage);
         }
-        sender.execute(sendMessage);
     }
 
     @SneakyThrows
@@ -235,6 +244,7 @@ public class UserService {
     @SneakyThrows
     private void sendFontsPageable(SendPhoto sendPhoto) {
         Long chatId = Long.valueOf(sendPhoto.getChatId());
+        User user = userRepository.findByChatId(chatId).orElseThrow();
         int size = 5;
         Integer page = userPages.get(chatId);
         List<File> files = imageService.generateImage("Hello", chatId.toString(), fontNames.toArray(new String[0]));
@@ -242,7 +252,11 @@ public class UserService {
             sendPhoto.setPhoto(new InputFile(files.get(i)));
             sendPhoto.setCaption(fontNames.get(i));
             Map<String, String> buttons = new HashMap<>();
-            buttons.put("Qo`shish" + fontNames.get(i), "Qo`shish➕");
+            if (user.getFonts().contains(new Font(null, fontNames.get(i),null))){
+                buttons.put("Qo`shilgan","Qo`shilgan✔");
+            }else {
+                buttons.put("Qo`shish" + fontNames.get(i), "Qo`shish➕");
+            }
             sendPhoto.setReplyMarkup(keyboardService.getInlineKeyboard(1, buttons));
             sender.execute(sendPhoto);
             if (i + 1 == size) {

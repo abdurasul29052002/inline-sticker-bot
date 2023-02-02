@@ -52,6 +52,7 @@ public class AdminService {
             case "Statistika" ->{
                 sendMessage.setText("Bugungi kun bo`yicha: \nQuerylar soni: " + queryCount + "\nStickerlar soni: " + stickerCount + "\nYangi obunachilar: " + userCount);
             }
+            default -> sendMessage.setText("Xatolik /start bilan qayta ishga tushiring");
         }
         sender.execute(sendMessage);
     }

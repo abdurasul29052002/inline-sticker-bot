@@ -1,7 +1,6 @@
 package com.example.inlinestickerbot.service;
 
 import com.example.inlinestickerbot.config.BotConfig;
-import com.example.inlinestickerbot.entity.User;
 import com.example.inlinestickerbot.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.NonNull;
@@ -9,14 +8,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
